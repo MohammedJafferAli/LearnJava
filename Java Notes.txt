@@ -1,0 +1,2 @@
+INTERFACE  - Class(write codes inside the class methods)
+interface will have a method(s) but not the body. example when class implement an interface then they should follow the methods traffic rules
