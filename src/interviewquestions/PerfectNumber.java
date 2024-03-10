@@ -11,7 +11,7 @@ public class PerfectNumber {
         System.out.print("Enter a number :");
         Scanner inp = new Scanner(System.in);
         int num = inp.nextInt();
-        int sum =0,count =0;
+        int sum =0;
 
         for(int i =1;i<num;i++){//exclude the = sign to exclude validating the same number ex 6
 

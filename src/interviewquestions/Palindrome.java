@@ -1,11 +1,16 @@
-package javabasics;
+package interviewquestions;
+
+import java.util.Scanner;
 
 public class Palindrome {
 
 
     public static void main(String[] args) {
 
-        String s = "Jaffer";
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the String : ");
+
+        String s = scan.nextLine();
         StringBuilder temp = new StringBuilder();
 
         for (int i = s.length()-1; i >= 0;i--){
