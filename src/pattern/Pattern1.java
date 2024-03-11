@@ -1,4 +1,4 @@
-package numberpattern;
+package pattern;
 
 /*
 * 1 2 3 4

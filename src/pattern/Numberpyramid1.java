@@ -1,4 +1,4 @@
-package numberpattern;
+package pattern;
 
 public class Numberpyramid1 {
     /*

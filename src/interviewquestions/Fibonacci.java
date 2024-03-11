@@ -2,8 +2,7 @@ package interviewquestions;
 
 import java.util.Scanner;
 
-public class Fibonacci
-{
+public class Fibonacci {
 
     public static void main(String[] args) {
 
@@ -12,16 +11,13 @@ public class Fibonacci
         Scanner inp = new Scanner(System.in);
 
         int limit = inp.nextInt();
-        int init =-1, start =1,temp ;
-        for (int i =1;i<=limit;i++)
-        {
-            temp = init+start;
-            System.out.println(" fibonacci series :"+temp);
-
-            init = start;
-            start = temp;
+        int a = -1, b = 1, sum;
+        for (int i = 1; i <= limit; i++) {
+            sum = a + b; //-1+1=0+1=1+0=1+
+            System.out.println(" fibonacci series :" + sum); //0 1 1 2 3
+            a = b; // 1 0 1 1 2
+            b = sum;// 0 1 1 2 3
         }
-
 
     }
 }
