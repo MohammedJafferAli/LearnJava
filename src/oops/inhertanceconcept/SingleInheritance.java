@@ -6,8 +6,8 @@ package oops.inhertanceconcept;
 * 3. Types of inheritance - Single, Multi-level, Hierarchy and Multiple (not possible using class, but with the interface
 * 4. Single - one parent, one child
 * 5. Multi-level - GrandParent, Parent and Child
-* 6. Hierarchy - One pareny multiple childen
-* 7. Multiple - one childern will have properties of two parent classes
+* 6. Hierarchy - One parent multiple children
+* 7. Multiple - one children will have properties of two parent classes
 *
 * */
 
