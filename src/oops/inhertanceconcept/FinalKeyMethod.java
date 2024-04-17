@@ -10,7 +10,7 @@ class Animal {
         colour = color;
         System.out.println(colour);
     }
-  final void legs(int nooflegs)
+  /*final*/ void legs(int nooflegs)
     {
         System.out.println(nooflegs);
     }

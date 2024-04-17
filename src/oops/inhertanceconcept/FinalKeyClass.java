@@ -1,6 +1,6 @@
 package oops.inhertanceconcept;
 
-final class Sun
+/*final*/ class Sun
 {
     void noOfPlanet(){
         System.out.println(8);

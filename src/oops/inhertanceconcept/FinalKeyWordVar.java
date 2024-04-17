@@ -23,6 +23,6 @@ public class FinalKeyWordVar {
         System.out.println(PI);
         System.out.println(THRESHOLD);
 
-        THRESHOLD = 10;
+//        THRESHOLD = 10;
     }
 }
