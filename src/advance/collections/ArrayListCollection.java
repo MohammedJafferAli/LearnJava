@@ -22,14 +22,14 @@ import java.util.List;
  * Heterogeneous data can be stored
  * Insertion order is preserved, can find the element using index, use heap memory
  * Duplicates are allowed to store
- * Mutliple 'null' values are allowed to store
- * Cannot be used for primitive datatypes instead use wrapper class
+ * Multiple 'null' values are allowed to store
+ * Cannot be used for primitive data types instead use wrapper class
  * */
 public class ArrayListCollection {
 
     public static void main(String[] args) {
 
-        //Declations
+        //Declarations
         //List<String> parentList = new ArrayList<String>(); creating an object forArrayList and storing in parent class object
         //ArrayList<String> mylist = new ArrayList<String>(); creating object of arraylist which stores specific data type
 
@@ -79,6 +79,9 @@ public class ArrayListCollection {
 
         //Find the array is empty
         System.out.println(mylist.isEmpty());//Return false
+
+        //Use contains to check the expected value present in the list
+        System.out.println(nameList.contains("JafferAli")); //return true
 
         //Find the size
         System.out.println(mylist.size());
