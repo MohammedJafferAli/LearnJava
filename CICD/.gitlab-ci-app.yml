@@ -1,0 +1,70 @@
+cache:
+  paths:
+    - node_modules/
+
+default:
+  image: node:18
+
+stages:
+  - install
+  - test
+
+variables:
+  ENV_TYPE: "dev"
+  PLATFORM: "android" # or "ios"
+  TEST_TAG: "NA"
+  TEST_SUITE: "NA"
+  AGILE_TOKEN: "your-agile-token"
+  TEST_PLAN_ID: "your-test-plan-id"
+  SLACK_WEBHOOK_URL: ""
+  SLACK_CHANNEL: ""
+  HEADSPIN_API_KEY: ""
+  HEADSPIN_API_URL: ""
+
+install_dependencies:
+  stage: install
+  script:
+    - npm install
+    - npm install --save-dev allure-commandline
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 week
+
+run_tests:
+  stage: test
+  timeout: 3 hours
+  script:
+    - echo "ENV_TYPE=$ENV_TYPE" >> .env
+    - echo "PLATFORM=$PLATFORM" >> .env
+    - echo "TEST_TAG=$TEST_TAG" >> .env
+    - echo "TEST_SUITE=$TEST_SUITE" >> .env
+    - echo "CI_PIPELINE_ID=$CI_PIPELINE_ID" >> .env
+    - echo "SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL" >> .env
+    - echo "SLACK_CHANNEL=$SLACK_CHANNEL" >> .env
+    - echo "HEADSPIN_API_KEY=$HEADSPIN_API_KEY" >> .env
+    - echo "HEADSPIN_API_URL=$HEADSPIN_API_URL" >> .env
+    - |
+      if [[ "$PLATFORM" == "android" ]]; then
+        export TEST_COMMAND="npm run test:android"
+      else
+        export TEST_COMMAND="npm run test:ios"
+      fi
+
+      if [[ "$TEST_TAG" != "NA" && "$TEST_SUITE" == "NA" ]]; then
+        $TEST_COMMAND -- --envType $ENV_TYPE --cucumberOpts.tags=@$TEST_TAG
+      elif [[ "$TEST_TAG" == "NA" && "$TEST_SUITE" != "NA" ]]; then
+        $TEST_COMMAND -- --envType $ENV_TYPE --suite $TEST_SUITE
+      elif [[ "$TEST_TAG" != "NA" && "$TEST_SUITE" != "NA" ]]; then
+        $TEST_COMMAND -- --envType $ENV_TYPE --suite $TEST_SUITE --cucumberOpts.tags=@$TEST_TAG
+      else
+        $TEST_COMMAND -- --envType $ENV_TYPE
+      fi
+  after_script:
+    - npx allure generate reports/allure
+  artifacts:
+    when: always
+    paths:
+      - reports/cucumber/html/
+      - allure-report/
+    expire_in: 7 days

@@ -1,0 +1,69 @@
+cache:
+  paths:
+    - node_modules/
+
+default:
+  image: node:18
+  tags:
+    - web-automation-runner
+
+stages:
+  - install
+  - ui-tests
+  - report
+
+variables:
+  ENV_TYPE: "dev"
+  BROWSER: "chrome" # Options: chrome, firefox, edge
+  TEST_TAG: "NA"
+  TEST_SUITE: "NA"
+  AGILE_TOKEN: "your-agile-token"
+  TEST_PLAN_ID: "your-test-plan-id"
+  SLACK_WEBHOOK_URL: ""
+  SLACK_CHANNEL: ""
+
+install_dependencies:
+  stage: install
+  script:
+    - npm install
+    - npm install --save-dev allure-commandline
+  artifacts:
+    paths:
+      - node_modules/
+    expire_in: 1 week
+
+run_ui_tests:
+  stage: ui-tests
+  script:
+    - echo "ENV_TYPE=$ENV_TYPE" >> .env
+    - echo "BROWSER=$BROWSER" >> .env
+    - echo "TEST_TAG=$TEST_TAG" >> .env
+    - echo "TEST_SUITE=$TEST_SUITE" >> .env
+    - echo "CI_PIPELINE_ID=$CI_PIPELINE_ID" >> .env
+    - echo "SLACK_WEBHOOK_URL=$SLACK_WEBHOOK_URL" >> .env
+    - echo "SLACK_CHANNEL=$SLACK_CHANNEL" >> .env
+    - |
+      if [[ "$TEST_TAG" != "NA" && "$TEST_SUITE" == "NA" ]]; then
+        npm run test:web -- --env $ENV_TYPE --cucumberOpts.tags=@$TEST_TAG --browser $BROWSER
+      elif [[ "$TEST_TAG" == "NA" && "$TEST_SUITE" != "NA" ]]; then
+        npm run test:web -- --env $ENV_TYPE --suite $TEST_SUITE --browser $BROWSER
+      elif [[ "$TEST_TAG" != "NA" && "$TEST_SUITE" != "NA" ]]; then
+        npm run test:web -- --env $ENV_TYPE --suite $TEST_SUITE --cucumberOpts.tags=@$TEST_TAG --browser $BROWSER
+      else
+        npm run test:web -- --env $ENV_TYPE --browser $BROWSER
+      fi
+  artifacts:
+    when: always
+    paths:
+      - reports/
+      - allure-results/
+    expire_in: 7 days
+
+generate_report:
+  stage: report
+  script:
+    - npx allure generate allure-results --clean -o allure-report
+  artifacts:
+    paths:
+      - allure-report/
+    expire_in: 7 days
